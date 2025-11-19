@@ -1,20 +1,26 @@
 pipeline {
-    agent {
-        label 'java-slave'
-    }
     stages {
-        stage ('Build') {
+        stage ('DeploytoDev') {
             steps {
-                retry(3) {
-                    echo "Welcome to jenkins pipeline"
-                    error "this is a failure"
-                }
-            echo "After 3 retries"
+                echo "**** Deploying to dev environment ****"
             }
         }
-        stage ('Scans') {
+        stage ('DeploytoTest') {
             steps {
-                echo "Executing Sonar Scans ..."
+                echo "**** Deploying to test environment ****"
+            }
+        }
+        stage ('DeploytoStage') {
+            steps {
+                echo "**** Deploying to stage environment ****"
+            }
+        }
+        stage ('DeploytoProd') {
+            steps {
+                timeout(time: 10, unit: 'SECONDS') {
+                    input message: 'Approve deployment to production?', ok: 'Deploy'
+                }
+                echo "**** Deploying to prod environment ****"
             }
         }
     }
