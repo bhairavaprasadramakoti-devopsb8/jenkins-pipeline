@@ -24,7 +24,7 @@ pipeline {
                     input message: 'Approve deployment to production?', ok: 'Deploy'
                     }
                     echo "**** Deploying to prod environment ****"
-                    //sleep 60
+                    sleep 60
             }
         }
     }
