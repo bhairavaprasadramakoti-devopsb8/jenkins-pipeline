@@ -2,24 +2,17 @@ pipeline {
     agent {
         label 'java-slave'
     }
-    tools {
-        maven 'MAVEN_3.9.8' // specify the same Maven installation name configured in Jenkins
+    parameters {
+        string (
+            name: 'PERSON',
+            defaultValue: 'Siva',
+            description: 'Whats your name???'
+        )
     }
     stages {
-        stage ('Maven') {
+        stage ('ParametersStage') {
             steps {
-                echo "hello, this is maven section"
-                sh "mvn --version"
-                }
-            }
-        stage ("SecondStage"){
-            // whatever u write under the stage will be taking presedence. 
-            tools {
-                maven "MAVEN_3.9.6" // specify a different Maven installation for this stage
-            }
-            steps {
-                echo "hello from second stage"
-                sh "mvn --version"
+                echo "Hello, ${params.PERSON}"
             }
         }
     }
