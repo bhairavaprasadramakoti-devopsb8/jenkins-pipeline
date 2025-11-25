@@ -5,45 +5,25 @@ pipeline {
     stages {
         stage ('Build') {
             steps {
-                echo "**** Building maven application ****"
-            }
+                echo "Building the application"
+                }
+                
         }
-        stage ('CodeAnalysis') {
-            steps {
-                echo "**** Running Sonar scan ****"
+        post {
+            // this will only run, when the current pipeline or stage is having a success stage
+            success {
+                echo "**** Post ============> Success is triggered"
+                // mail logic
             }
-        }
-        stage ('DockerBuildnPush') {
-            steps {
-                echo "**** Build and push docker images ****"
+            // Runs only when the pipeline or stage is having a failure status
+            failure {
+                echo "**** Post =============> Failure is triggered"
+                // mail logic
             }
-        }
-        stage ('DeployToDev') {
-            steps {
-                echo "***** Deploying to dev env *****"
-            }
-        }
-        stage ('DeployToTest') {
-            steps {
-                echo "***** Deploying to Test env *****"
-            }
-        }
-        stage ('DeployToStage') {
-            steps {
-                echo "***** Deploying to Stage env *****"
-            }
-        }
-        stage ('DeployToProd') {
-            options {
-                timeout (time: 300, unit: 'SECONDS')
-            }
-            input {
-                message "Doing Prod Deployment ?????"
-                ok 'yes'
-                submitter 'bhairava,RaghuSRE'
-            }
-            steps {
-                echo "***** Deploying to Prod env *****"
+            // this will run irrespective of the failed or success, everytime it should run
+            always {
+                // mail logic
+                echo "**** Post ============> Success is triggered"
             }
         }
     }
