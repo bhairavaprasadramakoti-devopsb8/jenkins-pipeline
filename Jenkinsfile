@@ -34,6 +34,14 @@ pipeline {
             }
         }
         stage ('DeployToProd') {
+            options {
+                timeout (time: 300, unit: 'SECONDS')
+            }
+            input {
+                message "Doing Prod Deployment ?????"
+                ok 'yes'
+                submitter 'bhairava,RaghuSRE'
+            }
             steps {
                 echo "***** Deploying to Prod env *****"
             }
